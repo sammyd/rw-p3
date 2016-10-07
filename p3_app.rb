@@ -11,9 +11,9 @@ get '/' do
 end
 
 post '/paddle' do
-  data = request.body.read.to_s
+  data = Rack::Utils.parse_nested_query(request.body.read.to_s)
   p [:paddle, data]
-  clients.each { |client| client.send(data) }
+  clients.each { |client| client.send(data.to_json) }
   status 200
   body ''
 end
