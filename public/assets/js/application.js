@@ -4,6 +4,8 @@ var ws     = new WebSocket(uri);
 
 
 ws.onmessage = function(message) {
-  console.log(message);
+  var content = JSON.parse(message.data);
+  var elem = document.getElementById('log');
+  elem.insertAdjacentText('afterbegin', content);
 };
 
