@@ -1,8 +1,12 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'dotenv'
 require 'sinatra'
 require 'json'
+require 'faraday'
+
+Dotenv.load
 
 clients = []
 
@@ -16,6 +20,24 @@ post '/paddle' do
   clients.each { |client| client.send(data.to_json) }
   status 200
   body ''
+end
+
+post '/paddle-custom-checkout' do
+  amount = params['amount']
+  conn = Faraday.new(url: 'https://vendors.paddle.com/api/2.0')
+  post_data = {
+    vendor_id: ENV['PADDLE_VENDOR_ID'],
+    vendor_auth_code: ENV['PADDLE_VENDOR_AUTH_CODE'],
+    title: 'Product with custom pricing',
+    prices: ["USD:#{amount}"],
+    webhook_url: 'https://rw-p3.herokuapp.com/paddle',
+    quantity_variable: 0
+  }
+  response = conn.post('product/generate_pay_link', post_data)
+  decoded = JSON.parse(response.body)
+  return decoded['response']['url'] if decoded['success']
+  status 500
+  body 'Unable to generate URL'
 end
 
 post '/500' do
