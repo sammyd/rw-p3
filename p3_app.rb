@@ -5,6 +5,7 @@ require 'dotenv'
 require 'sinatra'
 require 'json'
 require 'faraday'
+require 'digest'
 
 Dotenv.load
 
@@ -12,6 +13,12 @@ clients = []
 
 get '/' do
   erb :index
+end
+
+get '/paddle-upsell' do
+  price = 0.8 * 30
+  auth = Digest::MD5.hexdigest(price.to_s + ENV['PADDLE_CHECKOUT_SECRET_KEY'])
+  erb :paddle_upsell, locals: { override_auth: auth, price: price }
 end
 
 post '/paddle' do

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>P3</title>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <h1><abbr title="Payment Providers Prototype">P3</abbr> Samples</h1>
+  </header>
+
+  <main role="main">
+  <section>
+    <h2>Paddle</h2>
+    <h3>Sample Product 2</h3>
+    <p>Thanks for your purchase. You can download it now. Now buy this discounted book:</p>
+    <p><a href="#!" class="paddle_button" data-product="508528" data-allow-quantity="false" data-price="<%= price %>" data-auth="<%= override_auth %>">Buy Now!</a></p>
+
+    <hr />
+  </section>
+</body>
+<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+<script type="text/javascript">
+  Paddle.Setup({
+    vendor: 16159
+  });
+</script>
+<script src="/assets/js/application.js"></script>
+</html>
